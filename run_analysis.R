@@ -60,12 +60,11 @@ mergedtest <- cbind(subtest, xtest, ytest)
 combinedmerged <- rbind(mergedtrain, mergedtest)
 
 ## 4c) Make the variable names more understandable
-##names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "^t", replacement = "time")
-##names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "^f", replacement = "frequency")
-####names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "Acc", replacement = "Accelerometer")
-##names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "Gyro", replacement = "Gyroscope")
-##names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "Mag", replacement = "Magnitude")
-##names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "BodyBody", replacement = "Body")
+names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "^t", replacement = "time")
+names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "^f", replacement = "frequency")
+names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "Acc", replacement = "Accelerometer")
+names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "Gyro", replacement = "Gyroscope")names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "Mag", replacement = "Magnitude")
+names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "BodyBody", replacement = "Body")
 
 ## 4d) Read the column names of the final data set
 col_names <- colnames(combinedmerged)

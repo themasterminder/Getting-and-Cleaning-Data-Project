@@ -21,3 +21,4 @@ average of each variable for each subject and activity
 ##tidydata.txt
 The tidydata.txt is the file that contains the original data set cleaned and tidy. 
 Here is the link to the tidy dataset:
+https://github.com/therenaissancestoic/Getting-and-Cleaning-Data-Project/blob/master/tidydata.txt
