@@ -1,9 +1,9 @@
-#Getting and Cleaning Data Course Project
+##Getting and Cleaning Data Course Project
 
 This is a repository for the Week 4 project. It contains R scripts, a Codebook,
 and a tidy data set. The repository includes the following files: Codebook.md, run_analysis.R, and tidydata.txt.
 
-#Codebook.md
+##Codebook.md
 The Codebook.md contains a codebook that describes the variables, the data, and any transformations or work that I performed to clean up the data.
 
 
