@@ -24,6 +24,7 @@ subtest <- read.table("C:/Users/kenny.c.mcdowell/Documents/Coursera Courses/Clea
 xtest <- read.table("C:/Users/kenny.c.mcdowell/Documents/Coursera Courses/Cleaning Data/Course Project/UCI HAR Dataset/test/X_test.txt", header = FALSE)
 ytest <- read.table("C:/Users/kenny.c.mcdowell/Documents/Coursera Courses/Cleaning Data/Course Project/UCI HAR Dataset/test/y_test.txt", header = FALSE)
 
+
 ## 2b) Read the training data
 subtrain <- read.table("C:/Users/kenny.c.mcdowell/Documents/Coursera Courses/Cleaning Data/Course Project/UCI HAR Dataset/train/subject_train.txt", header = FALSE)
 xtrain <- read.table("C:/Users/kenny.c.mcdowell/Documents/Coursera Courses/Cleaning Data/Course Project/UCI HAR Dataset/train/X_train.txt", header = FALSE)
@@ -49,6 +50,27 @@ colnames(ytrain) <- "activityID"
 ## 3c) Assign variables for activity labels
 colnames(activitylabels) <- c("activityID", "activityType")
 
+## 3d) Add in an Activity column based on Activity ID from activity labels
+##Change activityID into a numeric value
+ytrain$activityID <- as.numeric(ytrain$activityID)
+ytest$activityID <-as.numeric(ytest$activityID)
+
+library(dplyr)
+ytrain <- ytrain %>%
+  mutate(Activity = case_when(activityID == 1 ~ 'WALKING',
+                              activityID == 2 ~ 'WALKING_UPSTAIRS',
+                              activityID == 3 ~ 'WALKING_DOWNSTAIRS',
+                              activityID == 4 ~ 'SITTING',
+                              activityID == 5 ~ 'STANDING',
+                              activityID == 6 ~ 'LAYING'))
+
+ytest <- ytest %>%
+  mutate(Activity = case_when(activityID == 1 ~ 'WALKING',
+                              activityID == 2 ~ 'WALKING_UPSTAIRS',
+                              activityID == 3 ~ 'WALKING_DOWNSTAIRS',
+                              activityID == 4 ~ 'SITTING',
+                              activityID == 5 ~ 'STANDING',
+                              activityID == 6 ~ 'LAYING'))
 
 ## 4) Merge the data sets
 
@@ -67,6 +89,9 @@ names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "Gyro", repla
 names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "Mag", replacement = "Magnitude")
 names(combinedmerged) <- gsub(x = names(combinedmerged), pattern = "BodyBody", replacement = "Body")
 
+
+
+
 ## 4d) Read the column names of the final data set
 col_names <- colnames(combinedmerged)
 
@@ -74,7 +99,7 @@ col_names <- colnames(combinedmerged)
 ## 5) Find on the measurements of the mean and st.dev for each measurement
 
 ## 5a) Create a data set that shows the mean and st.dev of subjectID and activityID
-meanandstdev <- (grepl("activityID", col_names)  |
+meanandstdev <- (grepl("Activity", col_names) |
                  grepl("subjectID", col_names) |
                  grepl("mean..", col_names) |
                  grepl("std...", col_names)
@@ -84,17 +109,19 @@ meanandstdev <- (grepl("activityID", col_names)  |
 subsetmean_stdev <- combinedmerged[, meanandstdev == TRUE]
 
 
+
 ## 6) Give descriptive activity names to the activities in the data set
 ## 6a) The data was already labeled
-activitynames <- merge(subsetmean_stdev, activitylabels, by = 'activityID', all.x = TRUE)
+## Did this is part 3d
+##activitynames <- merge(subsetmean_stdev, activitylabels, by = 'activityType', all.x = TRUE)
 
 
 ## 7) A new tidy data set that contains the average of each variable for each
 ## activity and subject
-tidy_data <- aggregate(. ~subjectID + activityID, activitynames, mean) 
+tidy_data <- aggregate(. ~subjectID + Activity, subsetmean_stdev, mean) 
 
 ## 7a) Need to put the tidy data set in order
-tidydata <- tidy_data[order(tidy_data$subjectID, tidy_data$activityID), ]
+tidydata <- tidy_data[order(tidy_data$subjectID, tidy_data$Activity), ]
 
 ## 7b) Output of final tidy data set
 write.table(tidydata, "tidydata.txt", row.names = FALSE)
